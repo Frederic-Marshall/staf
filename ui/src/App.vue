@@ -16,8 +16,9 @@
 }
 </style>
 <script>
-    import LoginLayout from "@/components/Layouts/LoginLayout.vue";
+
     import AppLayout from "@/components/Layouts/AppLayout.vue";
+    import LoginLayout from "@/components/Layouts/LoginLayout.vue";
 
     export default {
         name: "App",

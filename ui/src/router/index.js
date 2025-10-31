@@ -14,7 +14,7 @@ const routes = [
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
-        meta: { layout: 'login' },
+        meta: { layout: 'app' },
     },
 
     {
