@@ -14,24 +14,26 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminRole = Role::create(['name' => 'Главный администратор']);
-        $managerRole = Role::create(['name' => 'Менеджер']);
+        $roleConfig = config('permissions.local');
 
-        $permissions = [
-            'admin_panel',
-            'admin_edit_users',
-            'admin_edit_roles',
-            'admin_edit_permissions',
-        ];
+        foreach ($roleConfig as $role => $permissions) {
+            $role = Role::firstOrCreate(['name' => $role]);
 
-        foreach ($permissions as $perm) {
-            Permission::create(['name' => $perm]);
+            foreach ($permissions as $permission) {
+                Permission::firstOrCreate(['name' => $permission]);
+            }
+
+            $role->givePermissionTo($permissions);
         }
 
-        $adminRole->givePermissionTo($permissions);
-        $admin = User::first();
-        $manager = User::where('id', 2)->first();
-        $admin->assignRole($adminRole);
-        $manager->assignRole($managerRole);
+        $admin = User::where('id', '1')->first();
+        $author = User::where('id', '2')->first();
+        $mainManager =  User::where('id', '3')->first();
+        $contentManager = User::where('id', '4')->first();
+
+        $admin->assignRole('Главный администратор');
+        $author->assignRole('Автор');
+        $mainManager->assignRole('Главный менеджер');
+        $contentManager->assignRole('Менеджер по контенту');
     }
 }

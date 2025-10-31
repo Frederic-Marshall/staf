@@ -21,16 +21,30 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Менеджер Системы',
-            'nickname' => 'managerov',
+            'name' => 'Автор',
+            'nickname' => 'avtorov',
+            'email' => 'avtor@mail.com',
+            'password' => Hash::make('12345678'),
+        ]);
+
+        User::create([
+            'name' => 'Главный Менеджер',
+            'nickname' => 'glav_managerov',
             'email' => 'manager@mail.com',
             'password' => Hash::make('12345678'),
         ]);
 
         User::create([
-            'name' => 'Василий игроманов',
-            'nickname' => 'igromanov',
-            'email' => 'igroman@mail.com',
+            'name' => 'Менеджер Контента',
+            'nickname' => 'content_manager',
+            'email' => 'conmanager@mail.com',
+            'password' => Hash::make('12345678'),
+        ]);
+
+        User::create([
+            'name' => 'Обычный пользователь',
+            'nickname' => 'user',
+            'email' => 'user@mail.com',
             'password' => Hash::make('12345678'),
         ]);
     }

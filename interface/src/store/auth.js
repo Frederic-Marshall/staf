@@ -7,7 +7,7 @@ export default {
     mutations: {
         SET_USER(state, user) {
             state.currentUser = user;
-            localStorage.setItem('currentUser', JSON.parse(user));
+            localStorage.setItem('currentUser', JSON.stringify(user));
         },
         SET_TOKEN(state, token) {
             state.token = token;

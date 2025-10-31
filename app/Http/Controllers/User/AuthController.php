@@ -9,12 +9,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
     public function registration(RegistrationRequest $request)
     {
-        $data = $request->data->validated();
+        $data = $request->validated();
 
         $user = User::create([
             'name' => $data['name'],
@@ -24,7 +25,7 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json(['status' => 200, 'token' => $token, 'user' => $user]);
+        return response()->json(['success' => true, 'token' => $token, 'user' => $user]);
     }
 
     public function login(LoginRequest $request)
@@ -32,14 +33,15 @@ class AuthController extends Controller
         $data = $request->validated();
 
         if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-            return response()->json(['status' => 401, 'message' => 'Неверные данные']);
+            return response()->json(['success' => false, 'errors' => 'Неверные данные']);
         }
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        $user->tokens()->delete(); // удаляем старые токены
+        $user->tokens()->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json(['status' => 200, 'token' => $token, 'user' => $user,]);
+
+        return response()->json(['success' => true, 'token' => $token, 'user' => $user,]);
     }
 
     public function logout(Request $request)
@@ -47,10 +49,10 @@ class AuthController extends Controller
         $accessToken = $request->user()->currentAccessToken();
 
         if (!$accessToken) {
-            return response()->json(['status' => 400, 'message' => 'Токен не найден']);
+            return response()->json(['success' => false, 'message' => 'Токен не найден']);
         }
 
         $accessToken->delete();
-        return response()->json(['status' => 200]);
+        return response()->json(['success' => true]);
     }
 }
