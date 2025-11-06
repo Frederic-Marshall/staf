@@ -31,9 +31,7 @@ export default {
 </script>
 
 <template>
-    <div class="form-container">
         <LogRegForm :action="action" @send="send"/>
-    </div>
 </template>
 
 <style scoped>
